@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="books-grid">
+
+{% for book in books %}
+    {% include "books/book_card.html" %}
+{% endfor %}
+
+</div>
+
+{% endblock %}

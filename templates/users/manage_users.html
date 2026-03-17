@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="users-container">
+
+<h2>User Management</h2>
+
+<table class="users-table">
+
+<tr>
+<th>Username</th>
+<th>Email</th>
+<th>Role</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+
+{% for u in users %}
+
+<tr>
+
+<td>{{u.username}}</td>
+<td>{{u.email}}</td>
+<td>{{u.user_type}}</td>
+
+<td>
+{% if u.is_suspended %}
+<span class="status suspended">Suspended</span>
+{% else %}
+<span class="status active">Active</span>
+{% endif %}
+</td>
+
+<td class="actions">
+
+<a href="{% url 'suspend_user' u.id %}" class="suspend">
+Suspend
+</a>
+
+<a href="{% url 'activate_user' u.id %}" class="activate">
+Activate
+</a>
+
+<a href="{% url 'delete_user' u.id %}" class="delete">
+Delete
+</a>
+
+<form method="POST" action="{% url 'change_role' u.id %}" class="role-form">
+
+{% csrf_token %}
+
+<select name="role">
+
+<option value="student">Student</option>
+<option value="librarian">Librarian</option>
+<option value="admin">Admin</option>
+
+</select>
+
+<button type="submit">Change</button>
+
+</form>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

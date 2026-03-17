@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="book-detail-container">
+
+<div class="book-main">
+
+    <div class="book-image">
+        {% if book.cover_image %}
+        <img src="{{ book.cover_image.url }}">
+        {% endif %}
+    </div>
+
+    <div class="book-content">
+
+        <h1>{{ book.title }}</h1>
+        <p class="author">by {{ book.author }}</p>
+
+        <p class="description">{{ book.description }}</p>
+
+        <!-- Badge -->
+        {% if book.available_copies > 5 %}
+        <span class="badge available">Available</span>
+        {% elif book.available_copies > 0 %}
+        <span class="badge limited">Only {{ book.available_copies }} left</span>
+        {% else %}
+        <span class="badge out">Out of stock</span>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="actions">
+
+            {% if book.available_copies > 0 %}
+            <a href="{% url 'borrow_book' book.id %}" class="btn-primary">
+                Borrow Book
+            </a>
+            {% else %}
+            <a href="#" class="btn-secondary">
+                Reserve Book
+            </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<h2>Recommended Books</h2>
+
+<div class="books-grid">
+
+{% for b in recommended_books %}
+
+<div class="book-card">
+
+<h3>{{ b.title }}</h3>
+<p>{{ b.author }}</p>
+
+<a href="{% url 'book_detail' b.id %}">View</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+{% endblock %}

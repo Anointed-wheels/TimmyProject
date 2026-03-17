@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-container">
+
+<h2>Add Category</h2>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="name" placeholder="Category Name" required>
+
+<button type="submit">Create Category</button>
+
+</form>
+
+<h3>Existing Categories</h3>
+
+<ul>
+{% for cat in categories %}
+<li>{{ cat.name }}</li>
+{% endfor %}
+</ul>
+
+</div>
+
+{% endblock %}

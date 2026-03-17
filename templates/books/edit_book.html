@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-container">
+
+<h2>Edit Book</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+<label>Title</label>
+<input type="text" name="title" value="{{ book.title }}">
+
+<label>Author</label>
+<input type="text" name="author" value="{{ book.author }}">
+
+<label>Category</label>
+
+<select name="category">
+
+{% for cat in categories %}
+
+<option value="{{ cat.id }}"
+{% if cat.id == book.category.id %}selected{% endif %}
+>
+{{ cat.name }}
+</option>
+
+{% endfor %}
+
+</select>
+
+<label>Total Copies</label>
+
+<input type="number" name="copies" value="{{ book.total_copies }}">
+
+<label>Book Cover</label>
+
+<input type="file" name="cover">
+
+<button type="submit">Update Book</button>
+
+</form>
+
+</div>
+
+{% endblock %}

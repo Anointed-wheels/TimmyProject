@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="dashboard-top">
+
+<div class="stat-card">
+
+<h4>Total Books</h4>
+<p>{{ total_books }}</p>
+
+</div>
+
+<div class="stat-card">
+
+<h4>Total Users</h4>
+<p>{{ total_users }}</p>
+
+</div>
+
+<div class="stat-card">
+
+<h4>Borrowed Books</h4>
+<p>{{ borrowed_books }}</p>
+
+</div>
+
+<div class="stat-card warning">
+
+<h4>Overdue Books</h4>
+<p>{{ overdue_books }}</p>
+
+</div>
+
+</div>
+
+
+<div class="dashboard-container">
+
+    <div class="dashboard-header">
+        <h2>Welcome, {{ user.username }}</h2>
+        <span class="user-type">Role: {{ user_type|capfirst }}</span>
+    </div>
+
+    <div class="dashboard-panels">
+
+        {% if user_type == 'normal_user' %}
+        <div class="panel">
+            <h3>Borrow Books</h3>
+            <p>Search and borrow available books</p>
+            <a href="{% url 'homepage' %}" class="btn-panel">Go to Library</a>
+        </div>
+
+        <div class="panel">
+            <h3>Return Books</h3>
+            <p>Return books you have borrowed</p>
+            <a href="{% url 'homepage' %}" class="btn-panel">Return Book</a>
+        </div>
+
+
+        {% endif %}
+
+        {% if user_type == 'librarian' %}
+        <div class="panel">
+            <h3>Approve Borrow Requests</h3>
+            <p>Manage user borrow requests</p>
+            <a href="#" class="btn-panel">Manage Requests</a>
+        </div>
+
+        <div class="panel">
+            <h3>Mark Books Returned</h3>
+            <p>Confirm returned books</p>
+            <a href="#" class="btn-panel">Mark Returned</a>
+        </div>
+        {% endif %}
+
+        {% if user_type == 'admin_attendant' or user_type == 'admin' %}
+
+        <div class="panel">
+            <h3>Add Books</h3>
+            <p>Add books individually or upload via CSV</p>
+            <a href="{% url 'add_book' %}" class="btn-panel">Add Books</a>
+        </div>
+
+        <div class="panel">
+            <h3>Edit Books</h3>
+            <p>Edit book information and add cover images</p>
+            <a href="{% url 'book_list' %}" class="btn-panel">Edit Books</a>
+        </div>
+
+        <div class="panel">
+            <h3>Borrow Dashboard</h3>
+            <p>Track all your borrowing activity</p>
+            <a href="{% url 'my_borrows' %}" class="btn-panel">Open</a>
+        </div>
+
+        <div class="panel">
+            <h3>Borrow Requests</h3>
+            <p>Approve or reject user requests</p>
+            <a href="{% url 'approve_requests' %}" class="btn-panel">Manage</a>
+        </div>
+
+        <div class="panel">
+            <h3>Add Category</h3>
+            <p>Create categories like Science, Math, Fiction</p>
+            <a href="{% url 'add_category' %}" class="btn-panel">Add Category</a>
+        </div>
+
+        <div class="panel">
+            <h3>Manage Users</h3>
+            <p>Suspend, promote or delete users</p>
+            <a href="{% url 'manage_users' %}" class="btn-panel">Manage Users</a>
+        </div>
+
+        {% endif %}
+
+        {% if user_type == 'admin' %}
+        <div class="panel">
+            <h3>Full System Control</h3>
+            <p>Admin can access all functions including dashboards of other users</p>
+            <a href="#" class="btn-panel">System Settings</a>
+        </div>
+        {% endif %}
+
+        <div class="stat-card danger">
+        <h4>Suspended Users</h4>
+        <p>{{ suspended_users }}</p>
+        </div>
+
+    </div>
+
+    
+    <div class="quick-actions">
+
+        <a href="{% url 'my_borrows' %}" class="action-card">
+            <div class="icon">📚</div>
+            <div>
+                <h4>My Borrowed Books</h4>
+                <p>View and track your borrowed books</p>
+            </div>
+        </a>
+
+    </div>
+</div>
+{% endblock %}

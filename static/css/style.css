@@ -1,0 +1,875 @@
+/* General */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9f9;
+}
+
+/* Navbar */
+.navbar {
+    background: #333;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 30px;
+}
+
+.navbar .logo a {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-links li a {
+    color: white;
+    text-decoration: none;
+    padding: 8px 12px;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    background: #555;
+    border-radius: 4px;
+}
+
+/* Buttons */
+.btn-login {
+    background: #007BFF;
+    color: white !important;
+    border-radius: 4px;
+}
+
+.btn-register {
+    background: #28A745;
+    color: white !important;
+    border-radius: 4px;
+}
+
+.btn-logout {
+    background: #DC3545;
+    color: white !important;
+    border-radius: 4px;
+}
+
+/* Responsive Hamburger Menu */
+.hamburger {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+#menu-toggle {
+    display: none;
+}
+
+/* Footer */
+.footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+
+.footer a {
+    color: #ddd;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+.footer a:hover {
+    color: white;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .nav-links {
+        position: absolute;
+        right: 0;
+        top: 60px;
+        background: #333;
+        flex-direction: column;
+        width: 200px;
+        display: none;
+        padding: 10px 0;
+        border-radius: 0 0 4px 4px;
+    }
+    .nav-links li {
+        margin: 10px 0;
+    }
+    .hamburger {
+        display: block;
+    }
+    #menu-toggle:checked + .hamburger + .nav-links {
+        display: flex;
+    }
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://source.unsplash.com/1600x600/?books,library') center/cover no-repeat;
+    color: white;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.search-form input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: none;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background: #0056b3;
+}
+
+/* Category Filter */
+.category-filter {
+    padding: 20px;
+    text-align: center;
+}
+
+.categories a {
+    display: inline-block;
+    margin: 5px 10px;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    background: #f0f0f0;
+    color: #333;
+    transition: 0.3s;
+}
+
+.categories a.active,
+.categories a:hover {
+    background: #007BFF;
+    color: white;
+}
+
+/* Books Container */
+.books-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+}
+
+.book-card {
+    background: white;
+    width: 180px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.book-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.no-cover {
+    width: 100%;
+    height: 250px;
+    background: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+}
+
+.book-info {
+    padding: 10px;
+    text-align: center;
+}
+
+.book-info h3 {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.book-info p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* Pagination */
+.pagination {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+}
+
+.pagination a {
+    padding: 8px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    background: #007BFF;
+    color: white;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.pagination a:hover {
+    background: #0056b3;
+}
+
+.pagination span {
+    margin: 0 10px;
+}
+
+/* ===============================
+AUTH PAGES (REGISTER / LOGIN)
+================================ */
+
+.auth-section{
+    min-height:80vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+    background:linear-gradient(120deg,#eef2f7,#ffffff);
+}
+
+.auth-card{
+    width:100%;
+    max-width:420px;
+    background:white;
+    padding:35px 30px;
+    border-radius:12px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.12);
+}
+
+.auth-header{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.auth-header h2{
+    font-size:28px;
+    font-weight:700;
+    color:#222;
+}
+
+.auth-header p{
+    font-size:14px;
+    color:#777;
+}
+
+.auth-form{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-size:14px;
+    margin-bottom:6px;
+    color:#444;
+    font-weight:500;
+}
+
+.form-group input{
+    padding:12px 14px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:14px;
+    transition:0.2s;
+}
+
+.form-group input:focus{
+    border-color:#2563eb;
+    outline:none;
+    box-shadow:0 0 0 2px rgba(37,99,235,0.15);
+}
+
+.auth-btn{
+    margin-top:10px;
+    padding:13px;
+    border:none;
+    border-radius:7px;
+    background:#2563eb;
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.25s;
+}
+
+.auth-btn:hover{
+    background:#1e4fd6;
+}
+
+.auth-footer{
+    text-align:center;
+    margin-top:20px;
+}
+
+.auth-footer p{
+    font-size:14px;
+    color:#666;
+}
+
+.auth-footer a{
+    color:#2563eb;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.auth-footer a:hover{
+    text-decoration:underline;
+}
+
+/* ===============================
+MOBILE RESPONSIVE
+================================ */
+
+@media(max-width:768px){
+
+    .auth-card{
+        padding:28px 22px;
+    }
+
+    .auth-header h2{
+        font-size:24px;
+    }
+
+}
+
+@media(max-width:480px){
+
+    .auth-section{
+        padding:20px 15px;
+    }
+
+    .auth-card{
+        padding:25px 18px;
+    }
+
+    .form-group input{
+        padding:11px;
+    }
+
+}
+
+/* OTP BOXES */
+
+.otp-boxes{
+display:flex;
+justify-content:center;
+gap:10px;
+margin:25px 0;
+}
+
+.otp-input{
+width:45px;
+height:50px;
+font-size:22px;
+text-align:center;
+border:1px solid #ccc;
+border-radius:8px;
+outline:none;
+transition:0.2s;
+}
+
+.otp-input:focus{
+border-color:#4b7bec;
+box-shadow:0 0 5px rgba(75,123,236,0.4);
+}
+
+
+/* MOBILE */
+
+@media (max-width:600px){
+
+.otp-input{
+width:38px;
+height:45px;
+font-size:20px;
+}
+
+}
+
+/* AI CHAT BUTTON */
+
+#ai-chat-button{
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: #2563eb;
+    color: white;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+/* CHAT BOX */
+
+#ai-chat-box{
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 320px;
+    height: 420px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+}
+
+/* HEADER */
+
+.ai-chat-header{
+    background: #2563eb;
+    color: white;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.ai-chat-header button{
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* MESSAGES */
+
+#ai-chat-messages{
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    background: #f5f5f5;
+}
+
+/* USER MESSAGE */
+
+.user-message{
+    background: #2563eb;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    margin-left: auto;
+}
+
+/* AI MESSAGE */
+
+.ai-message{
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+/* INPUT AREA */
+
+#ai-chat-form{
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+#ai-message-input{
+    flex: 1;
+    border: none;
+    padding: 10px;
+    outline: none;
+}
+
+#ai-chat-form button{
+    border: none;
+    background: #2563eb;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+#ai-chat-box{
+    width: 90%;
+    right: 5%;
+}
+
+}
+
+/* LOGIN PAGE */
+
+.login-page{
+
+    min-height:90vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f4f6f9;
+}
+
+.login-card{
+
+    width:400px;
+    background:white;
+    padding:40px;
+    border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.login-card h2{
+
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.login-card p{
+
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+}
+
+.form-group{
+
+    margin-bottom:18px;
+}
+
+.form-group label{
+
+    display:block;
+    font-weight:600;
+    margin-bottom:5px;
+}
+
+.form-input{
+
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.login-btn{
+
+    width:100%;
+    padding:12px;
+    background:#2563eb;
+    border:none;
+    color:white;
+    font-size:16px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.login-btn:hover{
+
+    background:#1e4fd1;
+}
+
+.login-bottom{
+
+    text-align:center;
+    margin-top:15px;
+}
+
+.error-message{
+
+    background:#ffe3e3;
+    color:#b30000;
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:15px;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.login-card{
+
+    width:90%;
+    padding:30px;
+
+}
+
+}
+
+/* DASHBOARD */
+
+.dashboard-container{
+    min-height:90vh;
+    padding:30px;
+}
+
+.dashboard-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.user-type{
+    font-weight:bold;
+    color:#2563eb;
+    background:#e0f0ff;
+    padding:6px 12px;
+    border-radius:8px;
+}
+
+.dashboard-panels{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.panel{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.panel h3{
+    margin-bottom:10px;
+}
+
+.panel p{
+    color:#555;
+    margin-bottom:20px;
+    flex-grow:1;
+}
+
+.btn-panel{
+    text-decoration:none;
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.btn-panel:hover{
+    background:#1e4fd1;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+    .dashboard-panels{
+        grid-template-columns:1fr;
+    }
+}
+
+.nav-user-type{
+    margin-left:20px;
+    padding:5px 10px;
+    background:#e0f0ff;
+    color:#2563eb;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+/* ADD BOOK PAGE */
+
+.add-book-container{
+    padding:30px;
+    min-height:90vh;
+}
+
+.add-book-container h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+.add-book-form, .upload-csv{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.1);
+}
+
+.add-book-form h3, .upload-csv h3{
+    margin-bottom:15px;
+}
+
+.form-input, input[type="file"]{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.btn{
+    background:#2563eb;
+    color:white;
+    padding:12px 20px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.btn:hover{
+    background:#1e4fd1;
+}
+
+.message{
+    padding:10px;
+    border-radius:6px;
+    margin-bottom:15px;
+}
+
+.message.success{
+    background:#e0f9e0;
+    color:#25632e;
+}
+
+.message.error{
+    background:#ffe3e3;
+    color:#b30000;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+    .add-book-container{
+        padding:20px;
+    }
+}
+
+.table-container{
+width:90%;
+margin:auto;
+margin-top:40px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+th,td{
+padding:12px;
+text-align:left;
+border-bottom:1px solid #ddd;
+}
+
+th{
+background:#2563eb;
+color:white;
+}
+
+.edit-btn{
+background:#10b981;
+color:white;
+padding:6px 12px;
+border-radius:6px;
+text-decoration:none;
+}
+
+.form-container{
+width:500px;
+margin:auto;
+margin-top:40px;
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+background:#2563eb;
+color:white;
+padding:10px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}

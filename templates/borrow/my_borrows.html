@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>My Borrowed Books</h2>
+
+<table class="borrow-table">
+
+<tr>
+<th>Book</th>
+<th>Borrowed</th>
+<th>Due Date</th>
+<th>Status</th>
+</tr>
+
+{% for r in records %}
+
+<tr>
+<td>{{ r.book.title }}</td>
+<td>{{ r.borrow_date }}</td>
+<td>{{ r.due_date }}</td>
+
+<td>
+{% if r.status == "returned" %}
+Returned
+
+{% elif r.status == "approved" and r.due_date < now %}
+<span class="overdue">Overdue</span>
+
+{% elif r.status == "approved" %}
+Active
+
+{% else %}
+Pending Approval
+{% endif %}
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

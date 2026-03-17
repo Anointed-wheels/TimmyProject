@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="table-container">
+
+<h2>Manage Books</h2>
+
+<table>
+
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Category</th>
+<th>Available</th>
+<th>Actions</th>
+</tr>
+
+{% for book in books %}
+
+<tr>
+
+<td>{{ book.title }}</td>
+<td>{{ book.author }}</td>
+<td>{{ book.category }}</td>
+<td>{{ book.available_copies }}</td>
+
+<td>
+
+<a href="{% url 'edit_book' book.id %}" class="edit-btn">
+Edit
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

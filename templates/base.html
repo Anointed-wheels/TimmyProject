@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Digital Library</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/ori.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="{% static 'js/main.js' %}" defer></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+    <div class="container">
+        <div class="logo">
+            <a href="{% url 'homepage' %}">Digital Library</a>
+        </div>
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="hamburger">&#9776;</label>
+        <ul class="nav-links">
+            <li><a href="{% url 'homepage' %}">Home</a></li>
+            <li><a href="{% url 'books_page' %}">Books</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'logout' %}" class="btn btn-logout">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}" class="btn btn-login">Login</a></li>
+                <li><a href="{% url 'register' %}" class="btn btn-register">Register</a></li>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <span class="nav-user-type">{{ user.user_type|capfirst }}</span>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<main>
+    {% block content %}{% endblock %}
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; {{ now|date:"Y" }} Digital Library. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<!-- AI Chat Button -->
+<div id="ai-chat-button">
+    💬
+</div>
+
+<!-- AI Chat Box -->
+<div id="ai-chat-box">
+    <div class="ai-chat-header">
+        <span>Library Assistant</span>
+        <button id="close-ai-chat">✖</button>
+    </div>
+
+    <div id="ai-chat-messages"></div>
+
+    <form id="ai-chat-form">
+        <input type="text" id="ai-message-input" placeholder="Ask something..." required>
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script src="{% static 'js/ai_chat.js' %}"></script>
+<script src="{% static 'js/ori.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

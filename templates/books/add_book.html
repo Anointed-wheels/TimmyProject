@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="book-page">
+
+    <div class="book-card">
+
+        <h2 class="section-title">Add New Book</h2>
+
+        <form method="POST" class="book-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <input type="text" name="title" placeholder="Book Title" required>
+        </div>
+
+        <div class="form-group">
+            <input type="text" name="author" placeholder="Author" required>
+        </div>
+
+        <div class="form-group">
+            <select name="category" required>
+                <option value="">Select Category</option>
+
+                {% for category in categories %}
+                <option value="{{ category.id }}">
+                    {{ category.name }}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <input type="number" name="copies" placeholder="Number of copies">
+        </div>
+
+        <div class="form-group">
+
+            <label>Book Cover</label>
+
+            <input type="file" name="cover">
+
+        </div>
+
+        <button type="submit" class="primary-btn">
+            Add Book
+        </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="csv-card">
+
+        <h3 class="section-title">Upload Books via CSV</h3>
+
+        <form method="POST" enctype="multipart/form-data" class="csv-form">
+
+        {% csrf_token %}
+
+        <div class="form-group">
+            <select name="csv_category">
+                <option>Select Category</option>
+
+                {% for category in categories %}
+                <option value="{{category.id}}">
+                    {{category.name}}
+                </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="form-group file-upload">
+
+            <input type="file" name="csv_file" id="csvFile">
+            <label for="csvFile" class="file-label">
+                Choose CSV File
+            </label>
+
+            <span id="fileName"></span>
+
+        </div>
+
+        <button type="submit" class="secondary-btn">
+            Upload CSV
+        </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

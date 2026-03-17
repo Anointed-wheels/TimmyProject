@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>Welcome to the Digital Library</h1>
+        <p>Browse, explore, and find your favorite books online</p>
+        <form method="get" class="search-form">
+            <input type="text" name="search" placeholder="Search by title or author..." value="{{ query|default:'' }}">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</section>
+
+<section class="category-filter">
+    <h3>Filter by Category</h3>
+    <div class="categories">
+        <a href="{% url 'homepage' %}" class="{% if not selected_category %}active{% endif %}">All</a>
+        {% for cat in categories %}
+        <a href="?category={{ cat.id }}"{% if selected_category|add:'' == cat.id|stringformat:'s' %} class="active"{% endif %}>{{ cat.name }}</a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="featured-books">
+    <div class="books-container">
+        {% for book in books %}
+        <div class="book-card">
+
+            <div class="book-image">
+                {% if book.cover_image %}
+                <img src="{{ book.cover_image.url }}">
+                {% else %}
+                <div class="no-cover">No Cover</div>
+                {% endif %}
+            </div>
+
+            <div class="book-info">
+                <h3>{{ book.title }}</h3>
+                <p>{{ book.author }}</p>
+            </div>
+
+    <!-- Badge -->
+            {% if book.available_copies > 5 %}
+            <span class="badge available">Available</span>
+            {% elif book.available_copies > 0 %}
+            <span class="badge limited">Only {{ book.available_copies }} left</span>
+            {% else %}
+            <span class="badge out">Out of stock</span>
+            {% endif %}
+
+    <!-- Actions -->
+            <div class="book-actions">
+
+                <button class="action-btn">⋮</button>
+
+                <div class="dropdown">
+
+                    <a href="{% url 'book_detail' book.id %}">View</a>
+
+                    {% if book.available_copies > 0 %}
+                    <a href="{% url 'borrow_book' book.id %}">Borrow</a>
+                    {% else %}
+                    <a href="{% url 'reserve_book' book.id %}">Reserve</a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+        {% empty %}
+        <p>No books found</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?{% if selected_category %}category={{ selected_category }}&{% endif %}{% if query %}search={{ query }}&{% endif %}page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+            <a href="?{% if selected_category %}category={{ selected_category }}&{% endif %}{% if query %}search={{ query }}&{% endif %}page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

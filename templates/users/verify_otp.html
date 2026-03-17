@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="auth-section">
+
+<div class="auth-card">
+
+<h2>Email Verification</h2>
+<p class="auth-subtext">Enter the 6-digit OTP sent to your email</p>
+
+<form method="post" id="otp-form">
+{% csrf_token %}
+
+<div class="otp-boxes">
+
+<input type="text" maxlength="1" class="otp-input">
+<input type="text" maxlength="1" class="otp-input">
+<input type="text" maxlength="1" class="otp-input">
+<input type="text" maxlength="1" class="otp-input">
+<input type="text" maxlength="1" class="otp-input">
+<input type="text" maxlength="1" class="otp-input">
+
+</div>
+
+<input type="hidden" name="otp" id="final-otp">
+
+<button type="submit" class="btn-primary">Verify OTP</button>
+
+</form>
+
+<p class="resend-text">
+Didn't receive OTP?  
+<a href="{% url 'register' %}">Register again</a>
+</p>
+
+</div>
+</section>
+
+<script src="{% static 'js/otp.js' %}"></script>
+
+{% endblock %}
