@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block content %}
+
+{% if user_type == 'admin_attendant' or user_type == 'admin' %}
 <div class="dashboard-top">
 
 <div class="stat-card">
@@ -33,6 +35,7 @@
 </div>
 
 </div>
+{% endif %}
 
 
 <div class="dashboard-container">

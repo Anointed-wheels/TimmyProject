@@ -56,3 +56,25 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"{self.user} reserved {self.book}"
+
+
+class DeliveryRequest(models.Model):
+
+    STATUS = (
+        ("pending", "Pending"),
+        ("approved", "Approved"),
+        ("delivered", "Delivered"),
+    )
+
+    user = models.ForeignKey("users.CustomUser", on_delete=models.CASCADE)
+    book = models.ForeignKey("books.Book", on_delete=models.CASCADE)
+
+    address = models.TextField()
+    phone = models.CharField(max_length=20)
+
+    status = models.CharField(max_length=20, choices=STATUS, default="pending")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.book}"

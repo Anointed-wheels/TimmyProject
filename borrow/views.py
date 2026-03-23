@@ -131,3 +131,44 @@ def approve_borrow(request, id):
         record.save()
 
     return redirect("approve_requests")
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from books.models import Book
+from .models import DeliveryRequest
+
+
+@login_required
+def request_book(request, book_id):
+
+    book = get_object_or_404(Book, id=book_id)
+
+    if request.method == "POST":
+        address = request.POST.get("address")
+        phone = request.POST.get("phone")
+
+        DeliveryRequest.objects.create(
+            user=request.user,
+            book=book,
+            address=address,
+            phone=phone
+        )
+
+        return redirect("dashboard")
+
+    return render(request, "borrow/request_book.html", {"book": book})
+
+@login_required
+def reserve_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+
+    DeliveryRequest.objects.create(
+        user=request.user,
+        book=book,
+        address="Reserved (Walk-in)",
+        phone="N/A",
+        status="pending"
+    )
+
+    return redirect("dashboard")

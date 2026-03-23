@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="form-container">
+
+<h2>Request Book Delivery</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="address" placeholder="Your Address" required>
+    <input type="text" name="phone" placeholder="Phone Number" required>
+
+    <button type="submit">Submit Request</button>
+</form>
+
+</div>
+
+{% endblock %}
