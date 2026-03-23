@@ -812,3 +812,52 @@ grid-template-columns:1fr;
         margin: 20px;
     }
 }
+
+.request-container {
+    padding: 30px;
+}
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters a {
+    margin-right: 10px;
+    padding: 8px 14px;
+    background: #eee;
+    border-radius: 6px;
+    text-decoration: none;
+}
+
+.request-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.request-table th,
+.request-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.request-table a {
+    padding: 6px 10px;
+    background: #111;
+    color: #fff;
+    border-radius: 4px;
+    margin-right: 5px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+.request-table {
+    font-size: 12px;
+}
+
+.filters a {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+}

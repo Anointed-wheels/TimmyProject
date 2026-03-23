@@ -2,10 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('borrow/<int:book_id>/', views.borrow_book, name="borrow_book"),
-    path('my-borrows/', views.my_borrows, name='my_borrows'),
-    path('approve-requests/', views.approve_requests, name='approve_requests'),
-    path('approve-borrow/<int:id>/', views.approve_borrow, name='approve_borrow'),
-    path("request/<int:book_id>/", views.request_book, name="request_book"),
-    path("reserve/<int:book_id>/", views.reserve_book, name="reserve_book"),
+    path("request/<int:book_id>/", views.request_borrow, name="request_borrow"),
+    path("my-borrows/", views.my_borrows, name="my_borrows"),
+    path("manage/", views.manage_requests, name="manage_requests"),
+    path("approve/<int:request_id>/", views.approve_request, name="approve_request"),
+    path("reject/<int:request_id>/", views.reject_request, name="reject_request"),
+    path("return/<int:request_id>/", views.mark_returned, name="mark_returned"),
 ]

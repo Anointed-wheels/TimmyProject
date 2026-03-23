@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="request-container">
+
+<h2>Borrow Requests</h2>
+
+<div class="filters">
+    <a href="?">All</a>
+    <a href="?status=pending">Pending</a>
+    <a href="?status=approved">Approved</a>
+    <a href="?status=rejected">Rejected</a>
+</div>
+
+<table class="request-table">
+<tr>
+<th>User</th>
+<th>Book</th>
+<th>Status</th>
+<th>Action</th>
+</tr>
+
+{% for r in requests %}
+<tr>
+
+<td>{{ r.user.username }}</td>
+<td>{{ r.book.title }}</td>
+<td>{{ r.status }}</td>
+
+<td>
+
+{% if r.status == "pending" %}
+<a href="{% url 'approve_request' r.id %}">Approve</a>
+<a href="{% url 'reject_request' r.id %}">Reject</a>
+{% endif %}
+
+{% if r.status == "approved" %}
+<a href="{% url 'mark_returned' r.id %}">Mark Returned</a>
+{% endif %}
+
+</td>
+
+</tr>
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}

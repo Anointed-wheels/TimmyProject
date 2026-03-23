@@ -78,32 +78,129 @@ def borrow_book(request, book_id):
 
 
 
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.utils.timezone import now
+from books.models import Book
+from .models import BorrowRecord
+
+# =========================
+# USER REQUEST BOOK
+# =========================
+@login_required
+def request_borrow(request, book_id):
+
+    book = get_object_or_404(Book, id=book_id)
+
+    # prevent duplicate request
+    if BorrowRecord.objects.filter(
+        user=request.user,
+        book=book,
+        status="pending"
+    ).exists():
+        return redirect("book_detail", book_id=book.id)
+
+    BorrowRecord.objects.create(
+        user=request.user,
+        book=book
+    )
+
+    return redirect("my_borrows")
+
+
+# =========================
+# USER DASHBOARD (MY BORROWS)
+# =========================
 @login_required
 def my_borrows(request):
 
-    records = BorrowRecord.objects.filter(user=request.user)
+    records = BorrowRecord.objects.filter(
+        user=request.user
+    ).order_by("-borrow_date")
+
+    # calculate fine
+    for r in records:
+        if r.status == "approved" and r.due_date < now():
+            days = (now() - r.due_date).days
+            r.fine = days * 50
+            r.save()
 
     return render(request, "borrow/my_borrows.html", {
         "records": records
     })
 
-    from django.utils.timezone import now
 
-    for r in records:
-        if r.status == "approved" and r.due_date < now():
-            days_late = (now() - r.due_date).days
-            r.fine = days_late * 50  # ₦50 per day
-            r.save()
-
+# =========================
+# ADMIN VIEW REQUESTS
+# =========================
 @login_required
-def approve_requests(request):
+def manage_requests(request):
 
     if request.user.user_type not in ["admin", "librarian"]:
         return redirect("homepage")
 
-    requests = BorrowRecord.objects.filter(status="pending")
+    status_filter = request.GET.get("status")
 
-    return render(request, "borrow/approve_requests.html", {"requests": requests})
+    requests = BorrowRecord.objects.all().order_by("-borrow_date")
+
+    if status_filter:
+        requests = requests.filter(status=status_filter)
+
+    return render(request, "borrow/manage_requests.html", {
+        "requests": requests
+    })
+
+
+# =========================
+# APPROVE
+# =========================
+@login_required
+def approve_request(request, request_id):
+
+    record = get_object_or_404(BorrowRecord, id=request_id)
+
+    if record.book.available_copies > 0:
+        record.status = "approved"
+        record.book.available_copies -= 1
+
+        record.book.save()
+        record.save()
+
+    return redirect("manage_requests")
+
+
+# =========================
+# REJECT
+# =========================
+@login_required
+def reject_request(request, request_id):
+
+    record = get_object_or_404(BorrowRecord, id=request_id)
+
+    record.status = "rejected"
+    record.save()
+
+    return redirect("manage_requests")
+
+
+# =========================
+# RETURN BOOK (ADMIN/LIBRARIAN)
+# =========================
+@login_required
+def mark_returned(request, request_id):
+
+    record = get_object_or_404(BorrowRecord, id=request_id)
+
+    if record.status == "approved":
+        record.status = "returned"
+        record.book.available_copies += 1
+
+        record.book.save()
+        record.save()
+
+    return redirect("manage_requests")
+
+
 
 @login_required
 def approve_borrow(request, id):

@@ -61,7 +61,7 @@
                     <a href="{% url 'book_detail' book.id %}">View</a>
 
                     {% if book.available_copies > 0 %}
-                    <a href="{% url 'borrow_book' book.id %}">Borrow</a>
+                    <a href="{% url 'request_borrow' book.id %}">Borrow</a>
                     {% else %}
                     <a href="{% url 'reserve_book' book.id %}">Reserve</a>
                     {% endif %}

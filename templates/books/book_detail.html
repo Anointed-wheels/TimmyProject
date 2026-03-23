@@ -31,13 +31,11 @@
         <div class="actions">
 
             {% if book.available_copies > 0 %}
-            <a href="{% url 'request_book' book.id %}" class="btn-primary">
-                Request Delivery
+            <a href="{% url 'request_borrow' book.id %}" class="btn-primary">
+                Request Borrow
             </a>
             {% else %}
-            <a href="{% url 'reserve_book' book.id %}" class="btn-secondary">
-                Reserve Book
-            </a>
+            <span class="badge out">Out of stock</span>
             {% endif %}
 
         </div>

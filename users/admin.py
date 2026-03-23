@@ -17,4 +17,4 @@ from django.contrib import admin
 #     user.save()
 #     return user
 
-# create_admin("admin2", "admin2@gmail.com", "admin1234")
+# create_admin("admin", "admin@gmail.com", "admin1234")
