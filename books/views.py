@@ -56,59 +56,64 @@ def book_detail(request, book_id):
 
 
 @login_required
+@login_required
 def add_book(request):
 
     categories = Category.objects.all()
 
     if request.method == "POST":
 
+        # CSV UPLOAD FIRST
+        if request.FILES.get("csv_file"):
+
+            csv_file = request.FILES["csv_file"]
+            category_id = request.POST.get("csv_category")
+
+            category = Category.objects.get(id=category_id)
+
+            decoded = csv_file.read().decode('utf-8')
+            io_string = io.StringIO(decoded)
+
+            next(io_string)
+
+            for row in csv.reader(io_string):
+                Book.objects.create(
+                    title=row[0],
+                    author=row[1],
+                    category=category,
+                    total_copies=row[2],
+                    available_copies=row[2]
+                )
+
+            messages.success(request, "CSV Uploaded Successfully")
+            return redirect("add_book")
+
+        # NORMAL ADD
         title = request.POST.get("title")
         author = request.POST.get("author")
+        description = request.POST.get("description")  # ✅ NEW
         category_id = request.POST.get("category")
         copies = request.POST.get("copies")
 
         category = Category.objects.get(id=category_id)
-
         cover = request.FILES.get("cover")
 
         Book.objects.create(
             title=title,
             author=author,
+            description=description,
             category=category,
             total_copies=copies,
             available_copies=copies,
             cover_image=cover
         )
 
-        messages.success(request,"Book added")
+        messages.success(request, "Book added successfully")
+        return redirect("add_book")
 
-    return render(request,"books/add_book.html",{
-        "categories":categories
+    return render(request, "books/add_book.html", {
+        "categories": categories
     })
-
-    if request.FILES.get("csv_file"):
-
-        csv_file = request.FILES["csv_file"]
-        category_id = request.POST.get("csv_category")
-
-        category = Category.objects.get(id=category_id)
-
-        decoded = csv_file.read().decode('utf-8')
-        io_string = io.StringIO(decoded)
-
-        next(io_string)
-
-        for row in csv.reader(io_string):
-
-            Book.objects.create(
-                title=row[0],
-                author=row[1],
-                category=category,
-                total_copies=row[2],
-                available_copies=row[2]
-            )
-
-
 
 
 from .models import Category

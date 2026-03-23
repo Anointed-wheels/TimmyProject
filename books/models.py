@@ -17,6 +17,8 @@ class Book(models.Model):
         blank=True
     )
 
+    description = models.TextField(blank=True, null=True)
+
     cover_image = models.ImageField(upload_to='book_covers/', blank=True, null=True)
 
     total_copies = models.IntegerField(default=1)
