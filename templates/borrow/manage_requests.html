@@ -6,10 +6,35 @@
 <h2>Borrow Requests</h2>
 
 <div class="filters">
-    <a href="?">All</a>
-    <a href="?status=pending">Pending</a>
-    <a href="?status=approved">Approved</a>
-    <a href="?status=rejected">Rejected</a>
+
+    <a href="?" 
+       class="filter-btn {% if not request.GET.status %}active{% endif %}">
+        All
+    </a>
+
+    <a href="?status=pending" 
+       class="filter-btn {% if request.GET.status == 'pending' %}active{% endif %}">
+        Pending
+    </a>
+
+    <a href="?status=approved" 
+       class="filter-btn {% if request.GET.status == 'approved' %}active{% endif %}">
+        Approved
+    </a>
+
+    <a href="?status=rejected" 
+       class="filter-btn {% if request.GET.status == 'rejected' %}active{% endif %}">
+        Rejected
+    </a>
+    <a href="?status=cancelled" 
+       class="filter-btn {% if request.GET.status == 'cancelled' %}active{% endif %}">
+        Cancelled
+    </a>
+    <a href="?status=returned" 
+       class="filter-btn {% if request.GET.status == 'returned' %}active{% endif %}">
+        Returned
+    </a>
+
 </div>
 
 <table class="request-table">

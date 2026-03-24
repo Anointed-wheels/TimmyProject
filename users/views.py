@@ -259,6 +259,13 @@ def suspend_user(request,user_id):
     user.is_suspended = True
     user.save()
 
+    send_mail(
+        "Account Suspended",
+        "Your account has been suspended",
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email]
+    )
+
     return redirect("manage_users")
 
 
@@ -269,6 +276,13 @@ def activate_user(request,user_id):
 
     user.is_suspended = False
     user.save()
+
+    send_mail(
+        "Account Activated",
+        "Your account has been activated",
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email]
+    )
 
     return redirect("manage_users")
 
@@ -284,6 +298,13 @@ def change_role(request,user_id):
         user.user_type = role
         user.save()
 
+    send_mail(
+        "Account Role Changed",
+        f"Your account role has been changed to {user.user_type}",
+        settings.DEFAULT_FROM_EMAIL,
+        [user.email]
+    )
+
     return redirect("manage_users")
 
 
@@ -293,3 +314,15 @@ def suspended_users(request):
     users = CustomUser.objects.filter(is_suspended=True)
 
     return render(request, "users/suspended_users.html", {"users": users})
+
+@login_required
+def delete_own_account(request):
+
+    user = request.user
+    user.is_deleted = True
+    user.is_active = False
+    user.save()
+
+    logout(request)
+
+    return redirect("homepage")

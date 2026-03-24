@@ -1,0 +1,54 @@
+/* FILTER BUTTONS */
+
+.filters {
+    margin-bottom: 25px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: #f3f4f6;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+}
+
+/* Hover */
+.filter-btn:hover {
+    background: #e5e7eb;
+}
+
+/* Active state */
+.filter-btn.active {
+    background: #2563eb;
+    color: white;
+    border: 1px solid #2563eb;
+}
+
+/* Optional: Different colors per status */
+.filter-btn[href*="pending"].active {
+    background: #f59e0b;
+    border-color: #f59e0b;
+}
+
+.filter-btn[href*="approved"].active {
+    background: #16a34a;
+    border-color: #16a34a;
+}
+
+.filter-btn[href*="rejected"].active {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .filters {
+        justify-content: center;
+    }
+}

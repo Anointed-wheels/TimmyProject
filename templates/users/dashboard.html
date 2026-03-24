@@ -3,6 +3,10 @@
 
 {% block content %}
 
+<a href="{% url 'delete_own_account' %}" class="btn-danger">
+Delete My Account
+</a>
+
 {% if user_type == 'admin_attendant' or user_type == 'admin' %}
 <div class="dashboard-top">
 

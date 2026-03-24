@@ -16,5 +16,7 @@ urlpatterns = [
     path("suspend-user/<int:user_id>/", views.suspend_user, name="suspend_user"),
     path("activate-user/<int:user_id>/", views.activate_user, name="activate_user"),
     path("delete-user/<int:user_id>/", views.delete_user, name="delete_user"),
-    path("change-role/<int:user_id>/", views.change_role, name="change_role")
+    path("change-role/<int:user_id>/", views.change_role, name="change_role"),
+    
+    path("delete-own-account/", views.delete_own_account, name="delete_own_account")
 ]

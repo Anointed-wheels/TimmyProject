@@ -56,56 +56,44 @@ def book_detail(request, book_id):
 
 
 @login_required
-@login_required
 def add_book(request):
 
     categories = Category.objects.all()
 
     if request.method == "POST":
 
-        # CSV UPLOAD FIRST
+        # CSV upload
         if request.FILES.get("csv_file"):
-
             csv_file = request.FILES["csv_file"]
             category_id = request.POST.get("csv_category")
-
             category = Category.objects.get(id=category_id)
 
             decoded = csv_file.read().decode('utf-8')
             io_string = io.StringIO(decoded)
-
             next(io_string)
 
             for row in csv.reader(io_string):
                 Book.objects.create(
                     title=row[0],
                     author=row[1],
+                    description=row[2],  # ✅ CSV now supports description
                     category=category,
-                    total_copies=row[2],
-                    available_copies=row[2]
+                    total_copies=row[3],
+                    available_copies=row[3]
                 )
 
-            messages.success(request, "CSV Uploaded Successfully")
+            messages.success(request, "CSV uploaded successfully")
             return redirect("add_book")
 
-        # NORMAL ADD
-        title = request.POST.get("title")
-        author = request.POST.get("author")
-        description = request.POST.get("description")  # ✅ NEW
-        category_id = request.POST.get("category")
-        copies = request.POST.get("copies")
-
-        category = Category.objects.get(id=category_id)
-        cover = request.FILES.get("cover")
-
+        # normal add
         Book.objects.create(
-            title=title,
-            author=author,
-            description=description,
-            category=category,
-            total_copies=copies,
-            available_copies=copies,
-            cover_image=cover
+            title=request.POST.get("title"),
+            author=request.POST.get("author"),
+            description=request.POST.get("description"),
+            category=Category.objects.get(id=request.POST.get("category")),
+            total_copies=request.POST.get("copies"),
+            available_copies=request.POST.get("copies"),
+            cover_image=request.FILES.get("cover")
         )
 
         messages.success(request, "Book added successfully")
@@ -160,9 +148,9 @@ def edit_book(request, book_id):
 
         book.title = request.POST.get("title")
         book.author = request.POST.get("author")
+        book.description = request.POST.get("description")  # ✅ FIX
 
-        category_id = request.POST.get("category")
-        book.category = Category.objects.get(id=category_id)
+        book.category = Category.objects.get(id=request.POST.get("category"))
 
         book.total_copies = request.POST.get("copies")
 

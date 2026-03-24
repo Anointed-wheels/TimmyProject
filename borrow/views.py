@@ -111,19 +111,30 @@ def request_borrow(request, book_id):
 # =========================
 # USER DASHBOARD (MY BORROWS)
 # =========================
+from django.utils.timezone import now
+
 @login_required
 def my_borrows(request):
 
-    records = BorrowRecord.objects.filter(
-        user=request.user
-    ).order_by("-borrow_date")
+    records = BorrowRecord.objects.filter(user=request.user)
 
-    # calculate fine
     for r in records:
-        if r.status == "approved" and r.due_date < now():
-            days = (now() - r.due_date).days
-            r.fine = days * 50
-            r.save()
+        if r.status == "approved":
+
+            days_left = (r.due_date - now()).days
+
+            if days_left in [3, 2, 1]:
+                send_mail(
+                    "Return Reminder",
+                    f"{r.book.title} is due in {days_left} day(s)",
+                    settings.DEFAULT_FROM_EMAIL,
+                    [request.user.email]
+                )
+
+            if r.due_date < now():
+                days_late = (now() - r.due_date).days
+                r.fine = days_late * 50
+                r.save()
 
     return render(request, "borrow/my_borrows.html", {
         "records": records
@@ -198,6 +209,13 @@ def mark_returned(request, request_id):
         record.book.save()
         record.save()
 
+    send_mail(
+        "Book Returned",
+        f"You have returned {record.book.title}",
+        settings.DEFAULT_FROM_EMAIL,
+        [record.user.email]
+    )
+
     return redirect("manage_requests")
 
 
@@ -226,6 +244,16 @@ def approve_borrow(request, id):
         record.book.available_copies -= 1
         record.book.save()
         record.save()
+
+    if record.status != "pending":
+        return redirect("approve_requests")
+
+    send_mail(
+        "Book Approved",
+        f"Your request for {record.book.title} has been approved",
+        settings.DEFAULT_FROM_EMAIL,
+        [record.user.email]
+    )
 
     return redirect("approve_requests")
 
@@ -269,3 +297,27 @@ def reserve_book(request, book_id):
     )
 
     return redirect("dashboard")
+
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import BorrowRecord
+
+@login_required
+def cancel_request(request, request_id):   # ✅ MUST MATCH URL
+
+    record = get_object_or_404(
+        BorrowRecord,
+        id=request_id,
+        user=request.user   # 🔒 user can only cancel their own request
+    )
+
+    if record.status == "pending":
+        record.status = "cancelled"
+        record.save()
+        messages.success(request, "Request cancelled successfully")
+
+    else:
+        messages.error(request, "You cannot cancel this request")
+
+    return redirect("my_borrows")   # change to your page name

@@ -60,7 +60,7 @@
 
                 {% if book.available_copies > 0 %}
                 <a href="{% url 'request_borrow' book.id %}" class="btn-borrow">
-                    Borrow
+                    Request
                 </a>
                 {% else %}
                 <span class="btn-disabled">Out of stock</span>

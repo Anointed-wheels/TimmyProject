@@ -9,6 +9,7 @@
 <th>Status</th>
 <th>Due Date</th>
 <th>Fine</th>
+<th>Actions</th>
 </tr>
 
 {% for r in records %}
@@ -17,9 +18,15 @@
 <td>{{ r.status }}</td>
 <td>{{ r.due_date }}</td>
 <td>₦{{ r.fine }}</td>
+
+<td>
+    {% if r.status == "pending" %}
+        <a href="{% url 'cancel_request' r.id %}" class="btn-danger">Cancel</a>
+    {% endif %}
+</td>
+
 </tr>
 {% endfor %}
-
 </table>
 
 {% endblock %}
