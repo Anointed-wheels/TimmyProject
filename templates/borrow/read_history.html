@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="table-container">
+
+<h2>Books You've Read</h2>
+
+<table>
+<tr>
+<th>Book</th>
+<th>Date Read</th>
+</tr>
+
+{% for r in page_obj %}
+<tr>
+<td>{{ r.book.title }}</td>
+<td>{{ r.read_at }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<div class="pagination">
+{% if page_obj.has_previous %}
+<a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+
+<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+{% if page_obj.has_next %}
+<a href="?page={{ page_obj.next_page_number }}">Next</a>
+{% endif %}
+</div>
+
+</div>
+
+{% endblock %}

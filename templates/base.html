@@ -46,14 +46,68 @@
 
 <!-- Footer -->
 <footer class="footer">
-    <div class="container">
-        <p>&copy; {{ now|date:"Y" }} Digital Library. All rights reserved.</p>
-        <div class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Contact</a>
+
+    <div class="footer-container">
+
+        <!-- ABOUT -->
+        <div class="footer-section">
+            <h3>Melo Library</h3>
+            <p>
+                A modern digital library system designed to make borrowing,
+                reading, and managing books easier and smarter for students.
+            </p>
         </div>
+
+        <!-- QUICK LINKS -->
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="{% url 'homepage' %}">Home</a></li>
+                <li><a href="{% url 'books_page' %}">Books</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'my_borrows' %}">My Borrowed Books</a></li>
+            </ul>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="footer-section">
+            <h4>Contact</h4>
+            <p>Email: support@melolibrary.com</p>
+            <p>Phone: +234 800 000 0000</p>
+            <p>Location: Lead City University, Ibadan</p>
+        </div>
+
+        <!-- MAP -->
+        <div class="footer-section map">
+            <h4>Our Location</h4>
+
+            <iframe 
+                src="https://www.google.com/maps?q=Lead+City+University+Ibadan&output=embed"
+                width="100%" 
+                height="200" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+
+        </div>
+
     </div>
+
+    <!-- SOCIAL -->
+    <div class="footer-bottom">
+
+        <div class="social-links">
+            <a href="#">🌐</a>
+            <a href="#">📘</a>
+            <a href="#">🐦</a>
+            <a href="#">📸</a>
+        </div>
+
+        <p>&copy; {{ now|date:"Y" }} Melo Digital Library. All rights reserved.</p>
+
+    </div>
+
 </footer>
 
 <!-- AI Chat Button -->

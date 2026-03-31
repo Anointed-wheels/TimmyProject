@@ -8,6 +8,8 @@
     <div class="book-image">
         {% if book.cover_image %}
         <img src="{{ book.cover_image.url }}">
+        {% else %}
+        <div class="no-cover">No Cover</div>
         {% endif %}
     </div>
 
@@ -46,20 +48,34 @@
 
 </div>
 
-<h2>Recommended Books</h2>
+<h3>Recommended Books</h3>
 
 <div class="books-grid">
 
 {% for b in recommended_books %}
 <div class="book-card">
 
-<h3>{{ b.title }}</h3>
-<p>{{ b.author }}</p>
+    <div class="book-image">
+        {% if b.cover_image %}
+            <img src="{{ b.cover_image.url }}">
+        {% else %}
+            <div class="no-cover">No Cover</div>
+        {% endif %}
+    </div>
 
-<a href="{% url 'book_detail' b.id %}">View</a>
+    <div class="book-info">
+        <h4>{{ b.title }}</h4>
+        <p>{{ b.author }}</p>
+    </div>
+
+    <a href="{% url 'book_detail' b.id %}" class="btn-primary">
+        Read More
+    </a>
 
 </div>
 {% endfor %}
+
+</div>
 
 </div>
 

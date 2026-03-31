@@ -10,6 +10,7 @@
 <th>Due Date</th>
 <th>Fine</th>
 <th>Actions</th>
+<th>Mark as Read</th>
 </tr>
 
 {% for r in records %}
@@ -23,6 +24,28 @@
     {% if r.status == "pending" %}
         <a href="{% url 'cancel_request' r.id %}" class="btn-danger">Cancel</a>
     {% endif %}
+</td>
+
+<td>
+
+{% if r.status == "pending" %}
+<a href="{% url 'cancel_request' r.id %}" class="btn-danger">Cancel</a>
+{% endif %}
+
+{% if r.status == "approved" or r.status == "returned" %}
+
+    {% if r.book.id in read_books %}
+        <a href="{% url 'toggle_read' r.id %}" class="btn-secondary">
+            Mark as Unread
+        </a>
+    {% else %}
+        <a href="{% url 'toggle_read' r.id %}" class="btn-primary">
+            Mark as Read
+        </a>
+    {% endif %}
+
+{% endif %}
+
 </td>
 
 </tr>

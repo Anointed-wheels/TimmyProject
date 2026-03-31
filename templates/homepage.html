@@ -5,7 +5,7 @@
 
 <section class="hero">
     <div class="hero-content">
-        <h1>Welcome to the Digital Library</h1>
+        <h1>Welcome to Melo Digital Library</h1>
         <p>Browse, explore, and find your favorite books online</p>
         <form method="get" class="search-form">
             <input type="text" name="search" placeholder="Search by title or author..." value="{{ query|default:'' }}">
@@ -55,7 +55,7 @@
             <div class="book-actions">
 
                 <a href="{% url 'book_detail' book.id %}" class="btn-view">
-                    Read Book
+                    Read about
                 </a>
 
                 {% if book.available_copies > 0 %}

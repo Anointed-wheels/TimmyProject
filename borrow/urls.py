@@ -8,5 +8,10 @@ urlpatterns = [
     path("approve/<int:request_id>/", views.approve_request, name="approve_request"),
     path("reject/<int:request_id>/", views.reject_request, name="reject_request"),
     path("return/<int:request_id>/", views.mark_returned, name="mark_returned"),
-    path("cancel/<int:request_id>/", views.cancel_request, name="cancel_request")
+    path("cancel/<int:request_id>/", views.cancel_request, name="cancel_request"),
+    path("read-history/", views.read_history, name="read_history"),
+    path("mark-read/<int:record_id>/", views.mark_as_read, name="mark_as_read"),
+    path("toggle-read/<int:record_id>/", views.toggle_read, name="toggle_read"),
 ]
+
+

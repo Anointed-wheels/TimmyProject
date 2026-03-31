@@ -6,6 +6,22 @@
 
 <h2>User Management</h2>
 
+<div class="user-controls">
+
+<form method="GET" class="search-form">
+    <input type="text" name="search" placeholder="Search user...">
+    <button type="submit">Search</button>
+</form>
+
+<div class="filters">
+    <a href="?">All</a>
+    <a href="?status=active">Active</a>
+    <a href="?status=suspended">Suspended</a>
+    <a href="?status=deleted">Deleted</a>
+</div>
+
+</div>
+
 <table class="users-table">
 
 <tr>
@@ -27,6 +43,8 @@
 <td>
 {% if u.is_suspended %}
 <span class="status suspended">Suspended</span>
+{% elif u.is_deleted %}
+<span class="status deleted">Deleted</span>
 {% else %}
 <span class="status active">Active</span>
 {% endif %}

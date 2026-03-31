@@ -4,6 +4,9 @@ from books.models import Book
 from .models import BorrowRecord
 from django.shortcuts import render, redirect, get_object_or_404
 
+from django.core.mail import send_mail
+from django.conf import settings
+
 
 @login_required
 def request_borrow(request, book_id):
@@ -136,9 +139,15 @@ def my_borrows(request):
                 r.fine = days_late * 50
                 r.save()
 
+    read_books = ReadHistory.objects.filter(
+        user=request.user
+    ).values_list("book_id", flat=True)
+
     return render(request, "borrow/my_borrows.html", {
-        "records": records
+        "records": records,
+        "read_books": read_books
     })
+
 
 
 # =========================
@@ -321,3 +330,81 @@ def cancel_request(request, request_id):   # ✅ MUST MATCH URL
         messages.error(request, "You cannot cancel this request")
 
     return redirect("my_borrows")   # change to your page name
+
+
+from .models import BorrowRecord, ReadHistory
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+
+@login_required
+def mark_as_read(request, record_id):
+
+    record = get_object_or_404(
+        BorrowRecord,
+        id=record_id,
+        user=request.user,
+        status="approved"   # ✅ ONLY approved allowed
+    )
+
+    # Prevent duplicate entries
+    if not ReadHistory.objects.filter(user=request.user, book=record.book).exists():
+
+        ReadHistory.objects.create(
+            user=request.user,
+            book=record.book
+        )
+
+    messages.success(request, "Book marked as read")
+    return redirect("my_borrows")
+
+
+
+from django.db.models import Q
+
+@login_required
+def toggle_read(request, record_id):
+
+    record = get_object_or_404(
+        BorrowRecord,
+        id=record_id,
+        user=request.user
+    )
+
+    # ✅ Allow ONLY approved or returned
+    if record.status not in ["approved", "returned"]:
+        messages.error(request, "You cannot mark this book as read")
+        return redirect("my_borrows")
+
+    existing = ReadHistory.objects.filter(
+        user=request.user,
+        book=record.book
+    )
+
+    # ✅ TOGGLE LOGIC
+    if existing.exists():
+        existing.delete()
+        messages.success(request, "Marked as unread")
+    else:
+        ReadHistory.objects.create(
+            user=request.user,
+            book=record.book
+        )
+        messages.success(request, "Marked as read")
+
+    return redirect("my_borrows")
+
+    
+from django.core.paginator import Paginator
+
+@login_required
+def read_history(request):
+    history = ReadHistory.objects.filter(user=request.user)
+
+    paginator = Paginator(history, 20)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "borrow/read_history.html", {
+        "page_obj": page_obj
+    })

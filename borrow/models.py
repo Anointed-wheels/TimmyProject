@@ -79,3 +79,22 @@ class DeliveryRequest(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.book}"
+
+
+
+from django.db import models
+from django.conf import settings
+from books.models import Book
+
+User = settings.AUTH_USER_MODEL
+
+class ReadHistory(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    read_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-read_at']  # latest first
+
+    def __str__(self):
+        return f"{self.user} read {self.book}"

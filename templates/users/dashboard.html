@@ -51,19 +51,31 @@ Delete My Account
 
     <div class="dashboard-panels">
 
-        {% if user_type == 'normal_user' %}
+        {% if user_type == 'normal' %}
+
         <div class="panel">
-            <h3>Borrow Books</h3>
-            <p>Search and borrow available books</p>
-            <a href="{% url 'homepage' %}" class="btn-panel">Go to Library</a>
+            <h3>Browse Library</h3>
+            <p>Search and explore books</p>
+            <a href="{% url 'homepage' %}" class="btn-panel">Open Library</a>
         </div>
 
         <div class="panel">
-            <h3>Return Books</h3>
-            <p>Return books you have borrowed</p>
-            <a href="{% url 'homepage' %}" class="btn-panel">Return Book</a>
+            <h3>My Borrowed Books</h3>
+            <p>Track borrowed books & due dates</p>
+            <a href="{% url 'my_borrows' %}" class="btn-panel">View</a>
         </div>
 
+        <div class="panel">
+            <h3>Read History</h3>
+            <p>Books you have completed</p>
+            <a href="{% url 'read_history' %}" class="btn-panel">View</a>
+        </div>
+
+        <div class="panel">
+            <h3>Notifications</h3>
+            <p>Track updates on your requests</p>
+            <a href="#" class="btn-panel">Coming Soon</a>
+        </div>
 
         {% endif %}
 

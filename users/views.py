@@ -231,13 +231,34 @@ def dashboard(request):
 
 User = get_user_model()
 
-@login_required
+from django.db.models import Q
+
 def manage_users(request):
 
-    users = User.objects.filter(is_deleted=False)
+    users = CustomUser.objects.all()
 
-    return render(request,"users/manage_users.html",{
-        "users":users
+    # SEARCH
+    query = request.GET.get("search")
+    if query:
+        users = users.filter(
+            Q(username__icontains=query) |
+            Q(email__icontains=query)
+        )
+
+    # FILTER
+    status = request.GET.get("status")
+
+    if status == "active":
+        users = users.filter(is_suspended=False, is_deleted=False)
+
+    elif status == "suspended":
+        users = users.filter(is_suspended=True)
+
+    elif status == "deleted":
+        users = users.filter(is_deleted=True)
+
+    return render(request, "users/manage_users.html", {
+        "users": users
     })
 
 
