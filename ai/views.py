@@ -18,3 +18,6 @@ def ai_chat(request):
             return JsonResponse({"error": str(e)}, status=400)
             
     return JsonResponse({"error": "Only POST requests allowed"}, status=405)
+
+
+# 08072573389

@@ -477,14 +477,14 @@ font-size:20px;
     bottom: 100px;
     right: 25px;
     width: 320px;
-    height: 420px;
+    height: 400px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     display: none;
     flex-direction: column;
     overflow: hidden;
-    z-index: 999;
+    z-index: 999999999999999999999999999999999999999999999999999999999999999999999999999;
 }
 
 /* HEADER */
